@@ -1,7 +1,9 @@
 package Level1.Exercise1;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,71 +16,76 @@ public class LibraryTest {
     }
 
     @Test
-    public void listNotNullAfterAddingBook() {
-        library.addBook("The Hobbit");
-        assertNotNull(library.books);
+    public void listIsNotNullAfterInitialization() {
+        assertNotNull(library.getBooks());
+        assertEquals(0, library.size());
     }
 
     @Test
-    public void listHasExpectedLengthAfterAddingBooks() {
-        library.addBook("The Hobbit");
-        library.addBook("The Fellowship of the Ring");
-        library.addBook("The Two Towers");
-        assertEquals(3, library.books.size());
+    public void addBookIncreasesListSize() {
+        library.addBook("Book 1");
+        library.addBook("Book 2");
+        assertEquals(2, library.size());
     }
 
     @Test
-    public void bookIsAddedToCorrectIndex() {
-        library.addBook("The Hobbit");
-        library.addBook("The Fellowship of the Ring");
-        library.addBook("The Two Towers");
-        library.addBookAtIndex("The Return of the King", 3);
-        assertEquals("The Return of the King", library.books.get(2));
+    public void bookIsAddedAtSpecificIndex() {
+        library.addBook("Book 1");
+        library.addBook("Book 2");
+        assertTrue(library.addBookAtIndex("Book 3", 1));
+        assertEquals("Book 3", library.getBookByIndex(1));
     }
 
     @Test
-    public void listHasNoDuplicatesAfterAddingBook() {
-        library.addBook("The Hobbit");
-        library.addBook("The Hobbit");
-        assertEquals(1, library.books.size());
+    public void bookIsNotDuplicatedInList() {
+        library.addBook("Book 1");
+        library.addBook("Book 1");
+        assertEquals(1, library.size());
     }
 
     @Test
     public void bookIsReturnedFromCorrectIndex() {
-        library.addBook("The Hobbit");
-        library.addBook("The Fellowship of the Ring");
-        library.addBook("The Two Towers");
-        assertEquals("The Fellowship of the Ring", library.getBook(0));
+        library.addBook("Book 1");
+        library.addBook("Book 2");
+        library.addBook("Book 3");
+
+        assertEquals("Book 1", library.getBookByIndex(0));
+        assertEquals("Book 2", library.getBookByIndex(1));
+        assertEquals("Book 3", library.getBookByIndex(2));
     }
 
     @Test
     public void addingBookChangesListSize() {
-        library.addBook("The Hobbit");
-        library.addBook("The Fellowship of the Ring");
-        library.addBook("The Two Towers");
-        library.addBookAtIndex("The Return of the King", 3);
-        assertEquals(4, library.books.size());
+        assertEquals(0, library.size());
+        library.addBook("Book 1");
+        assertEquals(1, library.size());
+        library.addBook("Book 2");
+        assertEquals(2, library.size());
     }
 
     @Test
-    public void removingBookChangesListSize() {
-        library.addBook("The Hobbit");
-        library.addBook("The Fellowship of the Ring");
-        library.addBook("The Two Towers");
-        library.addBookAtIndex("The Return of the King", 3);
-        library.removeBook("The Fellowship of the Ring");
-        assertEquals(3, library.books.size());
+    public void removingBookDecreasesListSize() {
+        library.addBook("Book 1");
+        library.addBook("Book 2");
+        assertTrue(library.removeBook("Book 1"));
+        assertEquals(1, library.size());
     }
 
     @Test
     public void listIsSortedAfterAddingOrRemovingBook() {
-        library.addBook("The Hobbit");
-        library.addBook("The Fellowship of the Ring");
-        library.addBook("The Two Towers");
-        library.addBookAtIndex("The Return of the King", 3);
-        library.removeBook("The Fellowship of the Ring");
-        assertEquals("The Hobbit", library.books.get(0));
-        assertEquals("The Return of the King", library.books.get(1));
-        assertEquals("The Two Towers", library.books.get(2));
+        library.addBook("Book 3");
+        library.addBook("Book 1");
+        library.addBook("Book 2");
+
+        List<String> books = library.getBooks();
+        assertEquals("Book 2", books.get(1));
+        assertEquals("Book 1", books.get(0));
+        assertEquals("Book 3", books.get(2));
+
+        library.removeBook("Book 2");
+        books = library.getBooks();
+        assertEquals("Book 1", books.get(0));
+        assertEquals("Book 3", books.get(1));
     }
+
 }

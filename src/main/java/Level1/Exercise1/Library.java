@@ -5,40 +5,47 @@ import java.util.Collections;
 import java.util.List;
 
 public class Library {
-    List<String> books;
+    private final List<String> books;
 
     public Library() {
         this.books = new ArrayList<>();
     }
 
     public void addBook(String book) {
-        if(!books.contains(book)){
+        if (!books.contains(book)) {
             books.add(book);
-            sortBooks();
         }
     }
 
     public List<String> getBooks() {
-        return new ArrayList<>(books);
+        sortBooks();
+        return Collections.unmodifiableList(books);
     }
 
-    public String getBook(int index) {
-        if (index >= 0 && index < books.size()) {
-            return books.get(index);
+    public String getBookByIndex(int index) {
+        if (index < 0 || index >= books.size()) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index + ". Valid range is 0 to " + (books.size() - 1));
         }
-        throw new IndexOutOfBoundsException("Position out of range");
+        return books.get(index);
     }
 
-    public void addBookAtIndex(String book, int index) {
+    public boolean addBookAtIndex(String book, int index) {
+        if (index < 0 || index > books.size()) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index + ". Valid range is 0 to " + books.size());
+        }
         if (!books.contains(book)) {
             books.add(index, book);
-            sortBooks();
+            return true;
         }
+        return false;
     }
 
-    public void removeBook(String book) {
-        books.remove(book);
-        sortBooks();
+    public boolean removeBook(String book) {
+        return books.remove(book);
+    }
+
+    public int size() {
+        return books.size();
     }
 
     private void sortBooks() {
