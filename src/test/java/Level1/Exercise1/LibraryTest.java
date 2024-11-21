@@ -25,25 +25,25 @@ public class LibraryTest {
 
     @Test
     public void addBookIncreasesListSize() {
-        assertEquals(2, library.size());
+        library.addBook("Book 3");
+        assertEquals(3, library.size());
     }
 
     @Test
-    public void bookIsAddedAtSpecificIndex() {
-        assertTrue(library.addBookAtIndex("Book 3", 1));
-        assertEquals("Book 3", library.getBookByIndex(1));
+    public void addBookAtPositionAddsBookSuccessfully() {
+        library.addBookAtPosition("Book 3", 2);
+        assertEquals("Book 3", library.getBookByPosition(2));
     }
 
     @Test
-    public void bookIsNotDuplicatedInList() {
+    public void addBookDoesNotAddDuplicateBooks() {
         library.addBook("Book 1");
         assertEquals(2, library.size());
     }
 
     @Test
-    public void bookIsReturnedFromCorrectIndex() {
-        assertEquals("Book 1", library.getBookByIndex(0));
-        assertEquals("Book 2", library.getBookByIndex(1));
+    public void getBookByPositionReturnsCorrectBook() {
+        assertEquals("Book 1", library.getBookByPosition(1));
     }
 
     @Test
@@ -53,9 +53,10 @@ public class LibraryTest {
     }
 
     @Test
-    public void removingBookDecreasesListSize() {
-        assertTrue(library.removeBook("Book 1"));
+    public void removeBookRemovesBookSuccessfully() {
+        library.removeBook("Book 1");
         assertEquals(1, library.size());
+        assertFalse(library.validateBook("Book 1"));
     }
 
     @Test
