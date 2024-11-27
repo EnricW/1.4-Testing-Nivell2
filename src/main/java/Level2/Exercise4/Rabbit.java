@@ -1,7 +1,7 @@
 package Level2.Exercise4;
 
 public class Rabbit implements Animal{
-    String name;
+    private String name;
 
     public Rabbit(String name) {
         this.name = name;

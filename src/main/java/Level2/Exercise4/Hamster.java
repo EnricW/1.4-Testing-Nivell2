@@ -1,7 +1,7 @@
 package Level2.Exercise4;
 
 public class Hamster implements Animal{
-    String name;
+    private String name;
 
     public Hamster(String name) {
         this.name = name;

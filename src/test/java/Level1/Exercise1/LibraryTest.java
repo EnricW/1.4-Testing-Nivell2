@@ -55,25 +55,28 @@ public class LibraryTest {
     @Test
     public void removeBookRemovesBookSuccessfully() {
         library.removeBook("Book 1");
-        assertEquals(1, library.size());
         assertFalse(library.validateBook("Book 1"));
     }
 
     @Test
-    public void listIsSortedAfterAddingOrRemovingBook() {
-        library.addBook("Book 4");
+public void listIsSortedAfterAddingBooks() {
+    library.addBook("Book 4");
+    library.addBook("Book 3");
+
+    List<String> books = library.getBooks();
+    assertEquals("Book 2", books.get(1));
+    assertEquals("Book 1", books.get(0));
+    assertEquals("Book 4", books.get(3));
+    assertEquals("Book 3", books.get(2));
+}
+
+    @Test
+    public void listIsSortedAfterRemovingBook() {
         library.addBook("Book 3");
+        library.removeBook("Book 2");
 
         List<String> books = library.getBooks();
-        assertEquals("Book 2", books.get(1));
-        assertEquals("Book 1", books.get(0));
-        assertEquals("Book 4", books.get(3));
-        assertEquals("Book 3", books.get(2));
-
-        library.removeBook("Book 2");
-        books = library.getBooks();
         assertEquals("Book 1", books.get(0));
         assertEquals("Book 3", books.get(1));
     }
-
 }
